@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up</title>
+
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'loginreg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'loginreg/css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">USER REGISTRATION</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="http://127.0.0.1:8000/">Login<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="admin">Admin login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="signup" style="margin-top: -120px !important;">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" action="signup" name="upform" class="register-form" id="register-form" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="uname" id="name" placeholder="Username"/>
+                            </div>
+                            <div style="margin-top: -20px; display: none;" id="usererr">
+                                <p style="color: red;">username shouldn't contain special characters and whitespaces!</p>
+                            </div>
+                            <div style="margin-top: -20px; display: none;" id="usererror">
+                                <p style="color: red;">username required!</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                            </div>
+                            <div style="margin-top: -20px; display: none;" id="emailerror">
+                                <p style="color: red;">enter a valid email address!</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="pass" placeholder="Password"/>
+                            </div>
+                            <div style="margin-top: -20px; display: none;" id="passlenerror">
+                                <p style="color: red;">Password should be atleast 6 characters!</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                            </div>
+                            <div style="margin-top: -20px; display: none;" id="passerror">
+                                <p style="color: red;">Password doesn't match</p>
+                            </div>
+                            {% if messages %}
+                                <div style="margin-top: -15px; margin-bottom: -30px;" id="update">
+                                    {% for message in messages %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{message}}
+                                      </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" onclick="return validate()" id="signup" class="form-submit" value="Register"/>
+                            </div>
+                        </form>
+                    </div>
+                    <script>
+                        function validate(){
+                            var uname = document.upform.uname.value;
+                            if(uname == ''){
+                                document.getElementById('usererror').style.display='block';
+                                return false;
+                            } else {
+                                document.getElementById('usererror').style.display='none';
+                            } 
+                            var regexp1=new RegExp("[^a-z|^A-Z|^0-9]");
+                            if(regexp1.test(uname))
+                            {
+                                document.getElementById('usererr').style.display='block';
+                                return false;
+                            } else {
+                                document.getElementById('usererr').style.display='none';
+                            }
+                            var email = document.upform.email.value;
+                            email = email.trim();
+                            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                            if (email == '' || !(emailPattern.test(email))){
+                                document.getElementById('emailerror').style.display='block';
+                                return false;
+                            } else {
+                                document.getElementById('emailerror').style.display='none';
+                            }
+                            var pass = document.upform.pass.value;
+                            pass = pass.trim();
+                            if (pass.length < 6){
+                                document.getElementById('passlenerror').style.display='block';
+                                return false;
+                            } else {
+                                document.getElementById('passlenerror').style.display='none';
+            
+                            }
+                            var repass = document.upform.re_pass.value;
+                            repass = repass.trim();
+                            if (pass != repass){
+                                document.getElementById('passerror').style.display='block';
+                                return false;
+                            }
+                        }
+                    </script>
+                    <div class="signup-image">
+                        <figure><img src="{% static 'loginreg/images/signup-image.jpg' %}" alt="sing up image"></figure>
+                        <a href="http://127.0.0.1:8000/" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+
+    </div>
+
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- JS -->
+    <script src="{% static 'loginreg/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -1,0 +1,139 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Home - {% if user %}{{user}}{% endif %}</title>
+
+    <style type="text/css">
+        img{
+          height: 300px;
+          width: 100%;
+        }
+
+        .success {
+            color: green
+        }
+
+        .error {
+            color: red;
+        }
+
+        .card{
+          width: 350px;
+          display: block;
+          margin: 0 auto;
+        }
+        .btn-primary{
+           display: block;
+          margin: 0 auto;
+          width: 50%;
+    
+        }
+        .fab{
+          padding: 5px;
+          font-size: 28px;
+        }
+        .fab:hover{
+          color:#e91e63;
+       
+        }
+        .btn-primary:hover{
+          background: #F1C40F;
+          border-color: #F1C40F;
+        }
+      @media(max-width: 380px){
+        .card{
+          width: auto;
+        }
+      }
+      </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">USER HOME</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="logout">Logout <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="card col-lg-4">
+                    <img class="card-img-top" src="{% static 'loginreg/images/1.png' %}" alt="Card image">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">{{user}}</h4>
+                        <span class="badge badge-pill badge-primary p-2">{{email}}</span>
+                        <p> </p>
+                        <a href="logout" class="btn btn-secondary">LOGOUT</a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <form action="changepass" method="POST" name="cpass"> 
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{id}}">
+                        <div style="text-align: center;">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Change password</label>
+                          <input name="curpass" type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter current password">
+                          <small id="emailHelp" class="form-text text-muted"></small>
+                          <div style="margin-top: 0px; display: none;" id="curerr">
+                            <p style="color: red;">This field shouldn't be empty!</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <input name="npass" type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter new password">
+                        </div>
+                        <div style="margin-top: 0px; display: none;" id="newerr">
+                            <p style="color: red;">New password should be minimum 6 characters!</p>
+                        </div>
+                        {% if messages %}
+                        <div style="margin-top: 0px;" id="update">
+                            {% for message in messages %}
+                            <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{message}}</p>
+                            {% endfor %}
+                        </div>
+                        
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary" onclick="return validate()">Change</button>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            function validate(){
+                if(document.cpass.curpass.value == ''){
+                    document.getElementById('curerr').style.display='block';
+                    return false;
+                } else {
+                    document.getElementById('curerr').style.display='none';
+                }
+                if(document.cpass.npass.value == '' || document.cpass.npass.value.length < 6){
+                    document.getElementById('newerr').style.display='block';
+                    return false;
+                } else {
+                    document.getElementById('newerr').style.display='none';
+                }
+            }
+        </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign in to account</title>
+
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'loginreg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'loginreg/css/style.css' %}">
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">USER LOGIN</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="signup">Signup<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="admin">Admin login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="sign-in" style="margin-top: -120px !important;">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="{% static 'loginreg/images/signin-image.jpg' %}" alt="sing up image"></figure>
+                       <p class="signup-image-link"> Don't have an account?<a href="signup" class="signup-image-link"> Signup</a></p>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign in</h2>
+                        <form name="user" method="POST" action="login" class="register-form" id="login-form" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="uname" id="your_name" placeholder="Userame"/>
+                            </div> 
+                            <div class="form-group">
+                                <p id="uerror" style="color: red; margin-top: -10px;"></p>
+                            </div>
+                            <div class="form-group" style="margin-top: -15px;">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="your_pass" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <p id="perror" style="color: red; margin-top: -10px;"></p>
+                            </div>
+                            <div class="form-group">
+                               {% if messages %}
+                               {% for message in messages %}
+                               <p class="{{message.tags}}">{{message}}</p>
+                               {% endfor %}
+                               {% endif %}
+                            </div>
+                            <div class="form-group form-button" style="margin-top: -15px;">
+                                <button style="border: none;" onclick="return validate()" type="submit" name="signin" id="signin" class="form-submit">Log in</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <script>
+        function validate(){
+            var uname = document.user.uname.value;
+            if (uname == ''){
+                document.getElementById('uerror').innerHTML = "please enter username!";
+                return false;
+            } else {
+                document.getElementById('uerror').innerHTML = "";
+            }
+            var pass = document.user.pass.value;
+            if (pass == ''){
+                document.getElementById('perror').innerHTML = "please enter password!";
+                return false;
+            } else {
+                document.getElementById('perror').innerHTML = "";
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- JS -->
+    <script src="{% static 'loginreg/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
