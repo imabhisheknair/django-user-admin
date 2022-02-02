@@ -1,4 +1,4 @@
-# django user management system
+# Django user management system
 
 ## Installation
 
