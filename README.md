@@ -1,1 +1,1 @@
-# django-user-admin
+# django user management system
